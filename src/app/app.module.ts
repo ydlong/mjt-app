@@ -5,6 +5,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
 
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
@@ -28,7 +29,8 @@ import { ScoreComponent } from './score/score.component';
     MatListModule,
     MatIconModule,
     MatBadgeModule,
-    MatTableModule
+    MatTableModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
