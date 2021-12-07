@@ -27,7 +27,7 @@ export class ScoreComponent implements OnInit {
 
   constructor() { }
 
-  displayedColumns: string[] = ['p1_m', 'p2_m', 'p3_m', 'p4_m'];
+  displayedColumns: string[] = ['round_id','game_id', 'p1_m', 'p2_m', 'p3_m', 'p4_m'];
   dataSource = ELEMENT_DATA;
 
   ngOnInit(): void {
