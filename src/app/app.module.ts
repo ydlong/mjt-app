@@ -6,6 +6,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
@@ -25,12 +27,16 @@ import { ScoreComponent } from './score/score.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    
+    ReactiveFormsModule,
     MatGridListModule,
     MatListModule,
     MatIconModule,
     MatBadgeModule,
     MatTableModule,
-    MatInputModule
+    MatInputModule,
+
+  
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,9 +1,9 @@
 
 <mat-icon class="faceicon" matBadge="-"  matBadgeOverlap="false"  matBadgeColor="warn" aria-hidden="false"  aria-label="Example home icon"  style="color: floralwhite;">face</mat-icon>
 
-<form class="example-form">
+<form  >
     <mat-form-field style="width: 50px; height: 20px; color: floralwhite;" >
-      <input matInput value=" {{ name }} " >
+      <input matInput id="playername"  value=" {{ pname }} " [formControl]="playername"  >
     </mat-form-field>
 </form>
 
