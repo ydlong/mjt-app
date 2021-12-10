@@ -33,10 +33,6 @@ export class PlayerComponent implements OnInit {
       return pobj.name;
     }
 
-    function setPname(pobj: Player, setname:string ):void{
-       pobj.name = setname;
-    }
-
     let myObj:Player = PLAYERS.find(e => e.id === this.id)!;
     this.pname = getPname(myObj);
 
@@ -49,9 +45,18 @@ export class PlayerComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    function setPname(pobj: Player, setname:string ):void{
+      pobj.name = setname;
+    }
+
     this.playername.valueChanges.subscribe(selectedValue => {
        //console.log(selectedValue);
        console.log(this.playername.value, this.id);
+
+       let myObj:Player = PLAYERS.find(e => e.id === this.id)!;
+       setPname(myObj, this.playername.value) ;
+       console.log(PLAYERS);
     });
   }
 
