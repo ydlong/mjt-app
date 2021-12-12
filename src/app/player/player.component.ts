@@ -49,22 +49,32 @@ export class PlayerComponent implements OnInit {
       let myPlayer: Player = this.getPlayersById(pid);
 
       function checkDicNum (pid:string, cid:number) : boolean {
+        let dup = false;
         // Loop PLAYERS to verify duplicated dice num
         PLAYERS.forEach( (element) => {
-          if (element.dice_num == cid){}
+          if (element.dice_num == cid && element.id!==pid){
+            dup = true;
+          }
       });
-        return true;
+        return dup;
       }
 
-      setTimeout(function () {
-          var randomNumber1:number = Math.floor(Math.random() * 6) + 1;
-          var randomNumber2:number = Math.floor(Math.random() * 6) + 1;
+      function runDice (): number {
+        var randomNumber1:number = Math.floor(Math.random() * 6) + 1;
+        var randomNumber2:number = Math.floor(Math.random() * 6) + 1;
+        return randomNumber1+randomNumber2;
+      }      
 
-          cid = randomNumber1+randomNumber2;
+      setTimeout(function () {
+
+          cid = runDice();
+
           let same_num: boolean =  checkDicNum (pid, cid);
-          // if same_num ===-true re-dice
+          if (same_num ===true){
+            cid = runDice();
+          } 
           myPlayer.dice_num = cid;
-          console.log(PLAYERS);
+          console.log(same_num, PLAYERS);
           
       }, 2500);
 
