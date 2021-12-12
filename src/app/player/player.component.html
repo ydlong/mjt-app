@@ -1,5 +1,5 @@
-
-<mat-icon class="faceicon" matBadge="-"  matBadgeOverlap="false"  matBadgeColor="warn" aria-hidden="false"  aria-label="Example home icon"  style="color: floralwhite;">face</mat-icon>
+<div style="text-align: center;">
+<mat-icon class="faceicon"  matBadge="-"  matBadgeOverlap="false"  matBadgeColor="warn" aria-hidden="false"  aria-label="Example home icon"  style="color: floralwhite;">face</mat-icon>
 
 <form  >
     <mat-form-field style="width: 50px; height: 20px; color: floralwhite;" >
@@ -7,4 +7,9 @@
     </mat-form-field>
 </form>
 
-<mat-icon aria-hidden="false" aria-label="Example casino icon" style="color: orangered;">casino</mat-icon>
+
+<button mat-icon-button id="c_{{pname}}" aria-label="Example casino icon" style="color:orangered; background-color: navy;" (click) = "rollDice()">
+  <mat-icon>casino</mat-icon> <mat-icon>casino</mat-icon> 
+</button>
+
+<span id="d_{{ pname }}" style="color: papayawhip; padding-left: 10px; display: none;">{{dice_num}}</span>

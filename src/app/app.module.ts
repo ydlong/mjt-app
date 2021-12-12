@@ -7,7 +7,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import {MatButtonModule} from '@angular/material/button';
 
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
@@ -35,7 +35,7 @@ import { ScoreComponent } from './score/score.component';
     MatBadgeModule,
     MatTableModule,
     MatInputModule,
-
+    MatButtonModule
   
   ],
   providers: [],
