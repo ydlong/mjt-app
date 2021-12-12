@@ -21,13 +21,14 @@ export class PlayerComponent implements OnInit {
 
   id : string;
   pname: string;
-
+  dice_num: number;
   
   constructor(private elementRef: ElementRef) {
     console.log(this.playername.value);
 
     this.id = this.elementRef.nativeElement.getAttribute('id');
     this.pname =  "";
+    this.dice_num=0;
     
     function getPname(pobj: Player) {
       return pobj.name;
@@ -40,8 +41,21 @@ export class PlayerComponent implements OnInit {
     
     //console.log(PLAYERS);
 
-
    }
+
+   
+  rollDice(): void {
+      let pid = this.id;
+      
+      setTimeout(function () {
+          var randomNumber1:number = Math.floor(Math.random() * 6) + 1;
+          var randomNumber2:number = Math.floor(Math.random() * 6) + 1;
+          cid = randomNumber1+randomNumber2;
+          console.log(pid, randomNumber1+randomNumber2);
+          
+      }, 2500);
+
+  }
 
 
   ngOnInit(): void {
@@ -52,7 +66,7 @@ export class PlayerComponent implements OnInit {
 
     this.playername.valueChanges.subscribe(selectedValue => {
        //console.log(selectedValue);
-       console.log(this.playername.value, this.id);
+       //console.log(this.playername.value, this.id);
 
        let myObj:Player = PLAYERS.find(e => e.id === this.id)!;
        setPname(myObj, this.playername.value) ;
