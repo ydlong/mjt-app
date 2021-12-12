@@ -46,6 +46,7 @@ export class PlayerComponent implements OnInit {
    
   rollDice(): void {
       let pid = this.id;
+      let cid = this.dice_num;
       
       setTimeout(function () {
           var randomNumber1:number = Math.floor(Math.random() * 6) + 1;
