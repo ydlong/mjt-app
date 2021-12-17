@@ -16,6 +16,7 @@ export class PlayerComponent implements OnInit {
   id : string = this.elementRef.nativeElement.getAttribute('id');
   pname: string = "";
   dice_num: number = 0;
+  curr_wind: string ="?";
   
   playername = new FormControl('');
 
@@ -64,6 +65,27 @@ export class PlayerComponent implements OnInit {
         var randomNumber2:number = Math.floor(Math.random() * 6) + 1;
         return randomNumber1+randomNumber2;
       }      
+
+      function assignWind(pwind:string):void {
+        let windObj:Player = PLAYERS.find(e => e.id === pwind)!;
+        
+        let winds: string[] = ["E","S","W","N"]
+        let idxWind : number = 0;
+        windObj.curr_wind =winds[idxWind];
+
+        let idx:number = +pwind.substring(2,1)
+        // assign other player wind
+        for (let p of PLAYERS){
+          if ( idx<4 ){
+            idx = idx + 1;
+          } else {
+            idx = 0;
+          }
+          p.curr_wind=winds[idxWind]
+          idxWind = idxWind+1;
+        }
+        console.log(idx,PLAYERS[idx-1],pwind,windObj);
+      }
       
       setTimeout(function () {
 
@@ -89,15 +111,17 @@ export class PlayerComponent implements OnInit {
 
               // hide number, display wind
               let ewind = PLAYERS.reduce((max, obj) => (max.dice_num > obj.dice_num) ? max : obj);
-              console.log(ewind);
+              assignWind(ewind.id);
+             
             } 
           }
 
           console.log(same_num, PLAYERS);
           
       }, 2000);
-
+      
   }
+
 
 
   ngOnInit(): void {
@@ -106,13 +130,13 @@ export class PlayerComponent implements OnInit {
     this.playername.valueChanges.subscribe(selectedValue => {
        let myObj:Player = this.getPlayersById(this.id);
        myObj.name = this.playername.value;
-
        console.log(PLAYERS);
     });
 
     let myObj:Player  = this.getPlayersById(this.id);
     this.pname = myObj.name;
     this.playername.setValue( this.pname );  
+    this.curr_wind = myObj.curr_wind;
 
   }
 

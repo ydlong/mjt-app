@@ -1,9 +1,9 @@
 <div style="text-align: center;">
-<mat-icon class="faceicon"  matBadge="-"  matBadgeOverlap="false"  matBadgeColor="warn" aria-hidden="false"  aria-label="Example home icon"  style="color: floralwhite;">face</mat-icon>
+<mat-icon class="faceicon"  matBadge="{{curr_wind}}"  matBadgeOverlap="false"  matBadgeColor="warn" aria-hidden="false"  aria-label="Example home icon"  style="color: floralwhite;">face</mat-icon>
 
 <form  >
     <mat-form-field style="width: 50px; height: 20px; color: floralwhite;" >
-      <input matInput id="playername"  value=" {{ pname }} " [formControl]="playername"  >
+      <input matInput id="playername"  value="{{ pname }} " [formControl]="playername"  >
     </mat-form-field>
 </form>
 
@@ -13,3 +13,4 @@
 </button>
 
 <span id="d_{{ pname }}" style="color: papayawhip; padding-left: 10px; ">{{dice_num}}</span>
+</div>
