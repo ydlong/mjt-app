@@ -17,7 +17,8 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
   pname: string = "";
   dice_num: number = 0;
   curr_wind: string ="?";
-  
+  dice_run: boolean = false;
+
   playername = new FormControl('');
 
 
@@ -36,31 +37,42 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
   rollDice(): void {
       let pid = this.id;
       let cid = this.dice_num;
+      let d_run = this.dice_run;
+
       let myPlayer: Player = this.getPlayersById(pid);
       let winds: string[] = ["E","S","W","N"]
 
-      function checkDicNum (pid:string, cid:number) : {dup:boolean, zero:boolean} {
+      function checkDicNum (pid:string, cid:number) : {dup:boolean, run:boolean} {
         let vdup = false;
-        let vzero = false;
-        // Loop PLAYERS to verify duplicated dice num
+        let run = true;
+
+        // Loop PLAYERS to verify duplicated dice num and run status
         PLAYERS.forEach( (element) => { 
+          
           if (element.dice_num == cid && element.id!==pid){
             vdup = true;
           }
 
-          if (element.dice_num == 0){
-            vzero = true;
+          if (element.dice_run === false){
+            run = false;           
+          } 
+
+          if ( vdup==true || run == false){
+            return false;
+          } else {
+            return true;
           }
+          
         }
       );
-        return {dup:vdup, zero:vzero};
+        return {dup:vdup, run:run};
       }
 
       
       function runDice (): number {
         var randomNumber1:number = Math.floor(1+Math.random() * 6) ;
         var randomNumber2:number = Math.floor(1+Math.random() * 6) ;
-        console.log(randomNumber1,randomNumber2);
+        //console.log(randomNumber1,randomNumber2);
         return randomNumber1+randomNumber2;
       }      
 
@@ -79,51 +91,73 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
           p.curr_wind=winds[idx];
           let pEle = (<HTMLElement>document.getElementById("wind_p"+(idx+1)));
           pEle.childNodes[1].textContent = winds[idx];
-         // console.log(pEle.childNodes[1].textContent, "wind_p"+(idx+1));
         }); 
 
-        
       }
       
-      //setTimeout(function () {
+      if (!d_run){
+        setTimeout(function () {
 
           cid = runDice();
           
-          let chk :{dup:boolean, zero:boolean} =  checkDicNum (pid, cid);
+          let chk :{dup:boolean, run:boolean} =  checkDicNum (pid, cid);
           let same_num: boolean =  chk.dup;
-          let zero_num: boolean = chk.zero;
+          let all_run: boolean = chk.run;
+
           chk = checkDicNum(pid, cid);
           //console.log(same_num, zero_num);
 
-          if (same_num ===true){
-            // display dice
-            
-          } else {
             myPlayer.dice_num = cid;
-            
+            myPlayer.dice_run = true;
+
             // hide dice
             let cEle = (<HTMLElement>document.getElementById("c_"+pid));
             cEle.style.display="none";
             // display number
             let dEle = (<HTMLElement>document.getElementById("d_"+pid));
-            console.log("d_"+pid, dEle.textContent);
+            
             dEle.textContent = cid+"";
 
+            // Assign winds
             chk = checkDicNum(pid, cid);
-            zero_num = chk.zero;
-            if (zero_num === false){ // asign wind
-              // hide number, display wind
-              let ewind = PLAYERS.reduce((max, obj) => (max.dice_num > obj.dice_num) ? max : obj);
-              console.log("ewindid: ",ewind.id);
-              assignWind(ewind.id);
-            } 
-          }
+            all_run = chk.run;
 
-          //console.log(same_num, PLAYERS);
+            if (all_run === true){ // asign wind
+
+                // display dup players dice
+                const maxDiceNum = Math.max.apply(Math, PLAYERS.map(function(o) { return o.dice_num; }));
+                let dupEles:number[] = [];
+
+                for (let index = 0; index < PLAYERS.length; index++) {
+                  if (PLAYERS[index].dice_num === maxDiceNum) {
+                    dupEles.push(index);
+                  }
+                }
+
+                console.log("Max number as same players: ", dupEles.indexOf(maxDiceNum));
+
+                if (dupEles.length>1){
+                    dupEles.forEach(function(p,i){
+                      if(PLAYERS[p].dice_num==maxDiceNum){
+                      console.log("c_p"+(p+1));
+                      PLAYERS[p].dice_run = false;
+                      let cEle = (<HTMLElement>document.getElementById("c_p"+(p+1)));
+                      cEle.style.display="";
+                      }
+                    });
+                
+                } else {
+                  let ewind = PLAYERS.reduce((max, obj) => (max.dice_num > obj.dice_num) ? max : obj);
+                  assignWind(ewind.id);
+                }
+
+              console.log("Max number: ",maxDiceNum,  "Same number players: ", dupEles, "All diced: ", all_run,  "Plays data: ", PLAYERS);
+
+            }
           
-      //}, 2000);
-      
-  }
+        }, 1000);  
+    }
+}
 
 
 
@@ -140,7 +174,7 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
     this.pname = myObj.name;
     this.playername.setValue( this.pname );  
     this.curr_wind = myObj.curr_wind;
-
+    this.dice_run = myObj.dice_run;
   }
 
   ngAfterViewInit(): void {
