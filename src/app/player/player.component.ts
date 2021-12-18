@@ -20,6 +20,7 @@ export class PlayerComponent implements OnInit {
   
   playername = new FormControl('');
 
+
   constructor(private elementRef: ElementRef) {}
 
   getPlayersById (pid:string): Player {
@@ -41,6 +42,7 @@ export class PlayerComponent implements OnInit {
       let pid = this.id;
       let cid = this.dice_num;
       let myPlayer: Player = this.getPlayersById(pid);
+      let winds: string[] = ["E","S","W","N"]
 
       function checkDicNum (pid:string, cid:number) : {dup:boolean, zero:boolean} {
         let vdup = false;
@@ -67,27 +69,23 @@ export class PlayerComponent implements OnInit {
       }      
 
       function assignWind(pwind:string):void {
-        let windObj:Player = PLAYERS.find(e => e.id === pwind)!;
-        
-        let winds: string[] = ["E","S","W","N"]
-        let idxWind : number = 0;
-        windObj.curr_wind =winds[idxWind];
+        //let windObj:Player = PLAYERS.find(e => e.id === pwind)!;
 
-        let idx:number = +pwind.substring(2,1)
-        // assign other player wind
-        for (let p of PLAYERS){
-          if ( idx<4 ){
-            idx = idx + 1;
-          } else {
-            idx = 0;
-          }
-          p.curr_wind=winds[idxWind]
-          idxWind = idxWind+1;
+        let curridx:number = +pwind.substring(2,1)-1;
+
+        while (winds[curridx]!="E"){
+          let ele:number = 3;
+          let to:number = 0;
+          winds.splice(to,0, winds.splice(ele,1)[0]);
         }
-        console.log(idx,PLAYERS[idx-1],pwind,windObj);
+        
+        PLAYERS.forEach(function (p,idx) {
+          p.curr_wind=winds[idx];
+        }); 
+
       }
       
-      setTimeout(function () {
+      //setTimeout(function () {
 
           cid = runDice();
           
@@ -95,7 +93,7 @@ export class PlayerComponent implements OnInit {
           let same_num: boolean =  chk.dup;
           let zero_num: boolean = chk.zero;
           chk = checkDicNum(pid, cid);
-          console.log(same_num, zero_num);
+          //console.log(same_num, zero_num);
 
           if (same_num ===true){
             // display dice
@@ -108,17 +106,16 @@ export class PlayerComponent implements OnInit {
             chk = checkDicNum(pid, cid);
             zero_num = chk.zero;
             if (zero_num === false){ // asign wind
-
               // hide number, display wind
               let ewind = PLAYERS.reduce((max, obj) => (max.dice_num > obj.dice_num) ? max : obj);
+              console.log("ewindid: ",ewind.id);
               assignWind(ewind.id);
-             
             } 
           }
 
           console.log(same_num, PLAYERS);
           
-      }, 2000);
+      //}, 2000);
       
   }
 
