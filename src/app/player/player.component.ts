@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, AfterViewInit} from '@angular/core';
 import { FormControl ,FormGroup} from '@angular/forms';
 import { PLAYERS } from '../mock-players';
 import { Player } from '../player';
@@ -11,7 +11,7 @@ import { Player } from '../player';
 })
 
 
-export class PlayerComponent implements OnInit {
+export class PlayerComponent implements OnInit ,AfterViewInit {
 
   id : string = this.elementRef.nativeElement.getAttribute('id');
   pname: string = "";
@@ -28,15 +28,10 @@ export class PlayerComponent implements OnInit {
     return myObj;
   }
    
-  /*
-  runDice (): number {
-    var randomNumber1:number = Math.floor(Math.random() * 6) + 1;
-    var randomNumber2:number = Math.floor(Math.random() * 6) + 1;
-    return randomNumber1+randomNumber2;
-  } */
   setDicenum( dnum: number){
     this.dice_num=dnum;
   }
+
 
   rollDice(): void {
       let pid = this.id;
@@ -63,8 +58,9 @@ export class PlayerComponent implements OnInit {
 
       
       function runDice (): number {
-        var randomNumber1:number = Math.floor(Math.random() * 6) + 1;
-        var randomNumber2:number = Math.floor(Math.random() * 6) + 1;
+        var randomNumber1:number = Math.floor(1+Math.random() * 6) ;
+        var randomNumber2:number = Math.floor(1+Math.random() * 6) ;
+        console.log(randomNumber1,randomNumber2);
         return randomNumber1+randomNumber2;
       }      
 
@@ -81,8 +77,12 @@ export class PlayerComponent implements OnInit {
         
         PLAYERS.forEach(function (p,idx) {
           p.curr_wind=winds[idx];
+          let pEle = (<HTMLElement>document.getElementById("wind_p"+(idx+1)));
+          pEle.childNodes[1].textContent = winds[idx];
+         // console.log(pEle.childNodes[1].textContent, "wind_p"+(idx+1));
         }); 
 
+        
       }
       
       //setTimeout(function () {
@@ -102,7 +102,13 @@ export class PlayerComponent implements OnInit {
             myPlayer.dice_num = cid;
             
             // hide dice
+            let cEle = (<HTMLElement>document.getElementById("c_"+pid));
+            cEle.style.display="none";
             // display number
+            let dEle = (<HTMLElement>document.getElementById("d_"+pid));
+            console.log("d_"+pid, dEle.textContent);
+            dEle.textContent = cid+"";
+
             chk = checkDicNum(pid, cid);
             zero_num = chk.zero;
             if (zero_num === false){ // asign wind
@@ -113,7 +119,7 @@ export class PlayerComponent implements OnInit {
             } 
           }
 
-          console.log(same_num, PLAYERS);
+          //console.log(same_num, PLAYERS);
           
       //}, 2000);
       
@@ -136,5 +142,12 @@ export class PlayerComponent implements OnInit {
     this.curr_wind = myObj.curr_wind;
 
   }
+
+  ngAfterViewInit(): void {
+    console.log(this.curr_wind);
+    
+  }
+
+
 
 }

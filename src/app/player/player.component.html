@@ -1,16 +1,16 @@
 <div style="text-align: center;">
-<mat-icon class="faceicon"  matBadge="{{curr_wind}}"  matBadgeOverlap="false"  matBadgeColor="warn" aria-hidden="false"  aria-label="Example home icon"  style="color: floralwhite;">face</mat-icon>
+<mat-icon class="faceicon"  matBadge="{{curr_wind}}" id="wind_{{id}}"  matBadgeOverlap="false"  matBadgeColor="warn" aria-hidden="false"  aria-label="Example home icon"  style="color: floralwhite;">face</mat-icon>
 
 <form  >
     <mat-form-field style="width: 50px; height: 20px; color: floralwhite;" >
-      <input matInput id="playername"  value="{{ pname }} " [formControl]="playername"  >
+      <input matInput id="{{ pname }}"  value="{{ pname }} " [formControl]="playername"   >
     </mat-form-field>
 </form>
 
 
-<button mat-icon-button id="c_{{pname}}" aria-label="Example casino icon" style="color:orangered; background-color: navy;" (click) = "rollDice()">
+<button mat-icon-button id="c_{{id}}" aria-label="Example casino icon" style="color:orangered; background-color: navy;" (click) = "rollDice()">
   <mat-icon>casino</mat-icon> <mat-icon>casino</mat-icon> 
 </button>
 
-<span id="d_{{ pname }}" style="color: papayawhip; padding-left: 10px; ">{{dice_num}}</span>
+<span id="d_{{id}}" style="color: papayawhip; padding-left: 10px; ">{{dice_num}}</span>
 </div>
