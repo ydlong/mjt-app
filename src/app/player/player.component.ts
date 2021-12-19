@@ -153,9 +153,10 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
                 } else {
                   let ewind = PLAYERS.reduce((max, obj) => (max.dice_num > obj.dice_num) ? max : obj);
                   assignWind(ewind.id);
+                  // display desk dice
                 }
 
-              console.log("Max number: ",maxDiceNum,  "Same number players: ", dupEles, "All diced: ", all_run,  "Plays data: ", PLAYERS);
+              //console.log("Max number: ",maxDiceNum,  "Same number players: ", dupEles, "All diced: ", all_run,  "Plays data: ", PLAYERS);
 
             }
           
@@ -182,7 +183,7 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.curr_wind);
+    //console.log(this.curr_wind);
     
   }
 

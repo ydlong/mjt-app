@@ -53,6 +53,46 @@ export class DeskComponent implements OnInit {
     console.log(dpidx, dpEle, GAMES);
   };
 
+  nxtGame(): void {
+
+    // change wind
+    function nxtWind (currWind:string){
+      let winds: string[] = ["E","S","W","N"];
+      let currWindIdx = winds.indexOf(currWind);
+      let rtWind:string = "";
+
+      if (currWindIdx<3){
+        rtWind = winds[currWindIdx+1];
+      } else {
+        rtWind = winds[0];
+      }
+      return rtWind;
+    }
+
+    let gwwind:string = nxtWind(this.game_wind);  
+
+    // init new game
+    let gname:number = +this.name +1;
+    let gid:string = "g"+gname;
+    let gdealPlayer:number = 0;
+
+    if(this.deal_player<3){
+      gdealPlayer = this.deal_player+1;
+    } else {
+      gdealPlayer = 0;
+    }
+
+    
+    let newGame:Game =  {id:gid, name: gname.toString(), game_wind: gwwind, dice_num:0, dice_run:false, ewind_player: 0, deal_player: gdealPlayer};
+    this.id = gid;
+    this.name = gname.toString();
+    this.game_wind = gwwind;
+    this.deal_player = gdealPlayer;
+    console.log(gwwind, newGame);
+
+  }
+
+
   ngOnInit(): void {
     let currGame:Game  =  GAMES[GAMES.length-1];
     this.id = currGame.id;

@@ -1,6 +1,6 @@
 
 
-<div style=" border: solid 2p darkgreen; width:80%; height: 80%; position: absolute; left:10%; bottom:5%; background-color: darkgreen; ">
+<div style=" border: solid 2p darkgreen; width:80%; height: 80%; position: absolute; left:10%; bottom:5%; background-color: darkgreen; text-align: right; ">
 <mat-list  role="list">
     <mat-list-item  role="listitem" style="display: flex; justify-content:center; color:floralwhite" > Wind: &nbsp;&nbsp; <span matBadge="{{game_wind}}" matBadgeOverlap="false"></span></mat-list-item>
     <mat-list-item role="listitem" style="display: flex; justify-content:center; "  (click) = "rollDice()">
@@ -14,6 +14,11 @@
         &nbsp;&nbsp;&nbsp;
         <span matBadge="{{dice_num}}" matBadgeOverlap="false"></span>  <span style="padding-left: 30px; color: white; font-size: 30px;" id="dealpointer"></span>
     </mat-list-item>
-    <mat-list-item role="listitem" style="display: flex; justify-content:center; color: floralwhite; ">Game&nbsp;&nbsp;<span matBadge="{{name}}" matBadgeOverlap="false"></span></mat-list-item>
+    <mat-list-item role="listitem" style="display: flex; justify-content:center; color: floralwhite; ">
+      Game&nbsp;&nbsp;
+      <span matBadge="{{name}}" matBadgeOverlap="false"></span>
+      
+    </mat-list-item>
   </mat-list>
+  <button mat-raised-button color="warn" (click) = "nxtGame()"  style="left: align-self; margin-right: 30px; ">Next game</button>
 </div>
