@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, AfterViewInit} from '@angular/core';
 import { FormControl ,FormGroup} from '@angular/forms';
-import { PLAYERS } from '../mock-players';
+import { PLAYERS } from '../players';
 import { Player } from '../player';
+import { GAMES } from '../games';
 
 
 @Component({
@@ -92,6 +93,9 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
           let pEle = (<HTMLElement>document.getElementById("wind_p"+(idx+1)));
           pEle.childNodes[1].textContent = winds[idx];
         }); 
+
+        let game = GAMES[GAMES.length-1];
+        game.ewind_player = curridx;
 
       }
       

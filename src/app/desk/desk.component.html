@@ -2,13 +2,18 @@
 
 <div style=" border: solid 2p darkgreen; width:80%; height: 80%; position: absolute; left:10%; bottom:5%; background-color: darkgreen; ">
 <mat-list  role="list">
-    <mat-list-item  role="listitem" style="display: flex; justify-content:center; color:floralwhite" > Wind: &nbsp;&nbsp; <span matBadge="E" matBadgeOverlap="false"></span></mat-list-item>
-    <mat-list-item role="listitem" style="display: flex; justify-content:center; ">
-        <mat-icon aria-hidden="false" aria-label="Example casino icon" style="font-size:30px; color: rgb(238, 25, 25);">casino</mat-icon>
-        <mat-icon aria-hidden="false" aria-label="Example casino icon" style="font-size:30px; color: rgb(238, 25, 25);">casino</mat-icon>
+    <mat-list-item  role="listitem" style="display: flex; justify-content:center; color:floralwhite" > Wind: &nbsp;&nbsp; <span matBadge="{{game_wind}}" matBadgeOverlap="false"></span></mat-list-item>
+    <mat-list-item role="listitem" style="display: flex; justify-content:center; "  (click) = "rollDice()">
+      <button mat-icon-button id="dice" aria-label="Example casino icon" style="color:orangered; background-color:darkgreen; " (click) = "rollDice()">
+        <mat-icon style="font-size: 30px;">casino</mat-icon> <mat-icon style="font-size: 30px;">casino</mat-icon> 
+      </button>
+      <div id="deal" style="display: none; color:floralwhite">Deal start: </div>
+
+        <!--mat-icon aria-hidden="false" aria-label="Example casino icon" style="font-size:30px; color: rgb(238, 25, 25);">casino</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Example casino icon" style="font-size:30px; color: rgb(238, 25, 25);">casino</mat-icon-->
         &nbsp;&nbsp;&nbsp;
-        <span matBadge="11" matBadgeOverlap="false"></span>
+        <span matBadge="{{dice_num}}" matBadgeOverlap="false"></span>  <span style="padding-left: 30px; color: white; font-size: 30px;" id="dealpointer"></span>
     </mat-list-item>
-    <mat-list-item role="listitem" style="display: flex; justify-content:center; color: floralwhite; ">Game&nbsp;&nbsp;<span matBadge="1" matBadgeOverlap="false"></span></mat-list-item>
+    <mat-list-item role="listitem" style="display: flex; justify-content:center; color: floralwhite; ">Game&nbsp;&nbsp;<span matBadge="{{name}}" matBadgeOverlap="false"></span></mat-list-item>
   </mat-list>
 </div>
