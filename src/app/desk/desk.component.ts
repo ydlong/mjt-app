@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Game } from '../game';
 import { GAMES } from '../games';
 
@@ -10,6 +10,8 @@ import { GAMES } from '../games';
 
 
 export class DeskComponent implements OnInit {
+
+  @Input() msg='';
 
   constructor() { }
 
@@ -102,6 +104,8 @@ export class DeskComponent implements OnInit {
     this.game_wind = currGame.game_wind;
     this.ewind_player = currGame.ewind_player;
     this.deal_player = currGame.deal_player;
+
+    console.warn(this.msg);
   };
 
 }

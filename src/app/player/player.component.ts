@@ -173,6 +173,8 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
        let myObj:Player = this.getPlayersById(this.id);
        myObj.name = this.playername.value;
        console.log(PLAYERS);
+
+       
     });
 
     let myObj:Player  = this.getPlayersById(this.id);

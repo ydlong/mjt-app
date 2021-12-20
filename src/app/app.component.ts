@@ -24,8 +24,10 @@ export class AppComponent implements AfterViewInit, OnInit{
 
     let newScore: Score =  {round_id: 0,  game_id: 0,  p1_m: 0, p2_m: 0, p3_m: 0, p4_m: 0 };
     SCORES.push(newScore);
+    this.testMsg="Something else."
   }
   title = 'mjt-app';
 
+  testMsg ="";
   
 }
