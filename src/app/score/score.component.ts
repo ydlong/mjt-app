@@ -1,22 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { SCORES } from '../scores';
+import { Component, OnInit, Output } from '@angular/core';
+import { DataService } from '../dataService';
+import { Score } from '../score';
 
-/*
-export interface ScoreElement {
-  round_id: number;
-  game_id: number;
-  p1_m: number;
-  p2_m: number;
-  p3_m: number;
-  p4_m: number;
-}
-
-const ELEMENT_DATA: ScoreElement[] = [
-  {round_id: 0,  game_id: 0,  p1_m: 1, p2_m: -1, p3_m: 0, p4_m: 0 },
-  {round_id: 0,  game_id: 0,  p1_m: 2, p2_m: -1, p3_m: -1, p4_m: 0 }, 
-  {round_id: 0,  game_id: 0,  p1_m: 2, p2_m: -2, p3_m: 0, p4_m: 0 }
-];
-*/
 
 @Component({
   selector: 'app-score',
@@ -27,7 +12,13 @@ const ELEMENT_DATA: ScoreElement[] = [
 
 export class ScoreComponent implements OnInit {
 
-  constructor() { }
+  constructor( private dataService: DataService ){}
+
+  scores : Score[] = [];
+  getScores() : void {
+    this.scores = this.dataService.getScores();
+  }
+
 
   round_id: number = 0 ;
   game_id: number = 0;
@@ -36,11 +27,16 @@ export class ScoreComponent implements OnInit {
   p3_m: number = 0;
   p4_m: number = 0;
 
-  displayedColumns: string[] = ['round_id','game_id', 'p1_m', 'p2_m', 'p3_m', 'p4_m'];
-  dataSource = SCORES;
+  displayedColumns: string[] = [];
+  columnsToDisplay: string[] = [];
+  //displayedColumns: string[] = ['round_id','game_id', 'p1_m', 'p2_m', 'p3_m', 'p4_m'];  
+  dataSource = this.scores;
 
   ngOnInit(): void {
-
+    this.getScores();
+    this.displayedColumns = this.dataService.getColScore();
+    this.columnsToDisplay = this.displayedColumns.slice();
+    console.warn(this.scores, this.displayedColumns, this.columnsToDisplay);
   }
 
 }

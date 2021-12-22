@@ -3,6 +3,7 @@ import { FormControl ,FormGroup} from '@angular/forms';
 import { PLAYERS } from '../players';
 import { Player } from '../player';
 import { GAMES } from '../games';
+import { DataService } from '../dataService';
 
 
 @Component({
@@ -23,7 +24,12 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
   playername = new FormControl('');
 
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef, private dataService: DataService) {}
+
+  players: Player[] = [];
+  getPlayers() : void {
+    this.players = this.dataService.getPlayers();
+  }
 
   getPlayersById (pid:string): Player {
     let myObj:Player = PLAYERS.find(e => e.id === this.id)!;
@@ -35,7 +41,7 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
   }
 
 
-  rollDice(): void {
+  rollDice( ): void {
       let pid = this.id;
       let cid = this.dice_num;
       let d_run = this.dice_run;
@@ -43,12 +49,15 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
       let myPlayer: Player = this.getPlayersById(pid);
       let winds: string[] = ["E","S","W","N"]
 
+      let players: Player[] = this.players;
+
       function checkDicNum (pid:string, cid:number) : {dup:boolean, run:boolean} {
         let vdup = false;
         let run = true;
 
         // Loop PLAYERS to verify duplicated dice num and run status
-        PLAYERS.forEach( (element) => { 
+        
+        players.forEach( (element) => { 
           
           if (element.dice_num == cid && element.id!==pid){
             vdup = true;
@@ -88,7 +97,7 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
           winds.splice(to,0, winds.splice(ele,1)[0]);
         }
         
-        PLAYERS.forEach(function (p,idx) {
+        players.forEach(function (p,idx) {
           p.curr_wind=winds[idx];
           let pEle = (<HTMLElement>document.getElementById("wind_p"+(idx+1)));
           pEle.childNodes[1].textContent = winds[idx];
@@ -100,7 +109,8 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
       }
       
       if (!d_run){
-        setTimeout(function () {
+
+        setTimeout( function () {
 
           cid = runDice();
           
@@ -129,11 +139,11 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
             if (all_run === true){ // asign wind
 
                 // display dup players dice
-                const maxDiceNum = Math.max.apply(Math, PLAYERS.map(function(o) { return o.dice_num; }));
+                const maxDiceNum = Math.max.apply(Math, players.map(function(o) { return o.dice_num; }));
                 let dupEles:number[] = [];
 
-                for (let index = 0; index < PLAYERS.length; index++) {
-                  if (PLAYERS[index].dice_num === maxDiceNum) {
+                for (let index = 0; index < players.length; index++) {
+                  if (players[index].dice_num === maxDiceNum) {
                     dupEles.push(index);
                   }
                 }
@@ -142,16 +152,16 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
 
                 if (dupEles.length>1){
                     dupEles.forEach(function(p,i){
-                      if(PLAYERS[p].dice_num==maxDiceNum){
+                      if(players[p].dice_num==maxDiceNum){
                       console.log("c_p"+(p+1));
-                      PLAYERS[p].dice_run = false;
+                      players[p].dice_run = false;
                       let cEle = (<HTMLElement>document.getElementById("c_p"+(p+1)));
                       cEle.style.display="";
                       }
                     });
                 
                 } else {
-                  let ewind = PLAYERS.reduce((max, obj) => (max.dice_num > obj.dice_num) ? max : obj);
+                  let ewind = players.reduce((max, obj) => (max.dice_num > obj.dice_num) ? max : obj);
                   assignWind(ewind.id);
                   // display desk dice
                 }
@@ -168,11 +178,13 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
 
   ngOnInit(): void {
 
+    this.getPlayers();
+
     // Change name listner
     this.playername.valueChanges.subscribe(selectedValue => {
        let myObj:Player = this.getPlayersById(this.id);
        myObj.name = this.playername.value;
-       console.log(PLAYERS);
+       console.log(this.players);
 
        
     });

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DataService } from '../dataService';
 import { Game } from '../game';
 import { GAMES } from '../games';
 
@@ -13,7 +14,7 @@ export class DeskComponent implements OnInit {
 
   @Input() msg='';
 
-  constructor() { }
+  constructor( private dataService: DataService ) { }
 
   id: string = "";
   name: string =""; 
@@ -23,7 +24,11 @@ export class DeskComponent implements OnInit {
   ewind_player: number = 0;
   deal_player: number = 0;
 
-  
+  games:Game[] = [];
+
+  getGames(): void {
+    this.games = this.dataService.getGames();
+  }
 
   rollDice(): void {
 
@@ -35,7 +40,7 @@ export class DeskComponent implements OnInit {
     let diceNum = randomNumber1+randomNumber2;
     this.dice_num = diceNum;
     this.dice_run = true;
-    let game:Game = GAMES[GAMES.length-1];
+    let game:Game = this.games[this.games.length-1];
     game.dice_num = diceNum;
 
     let dealEle = (<HTMLElement>document.getElementById("deal"));
@@ -52,7 +57,7 @@ export class DeskComponent implements OnInit {
     dpEle.innerText = dp[dpidx];
     
 
-    console.log(dpidx, dpEle, GAMES);
+    console.log(dpidx, dpEle, this.games);
   };
 
   nxtGame(): void {
@@ -96,7 +101,8 @@ export class DeskComponent implements OnInit {
 
 
   ngOnInit(): void {
-    let currGame:Game  =  GAMES[GAMES.length-1];
+    this.getGames();
+    let currGame:Game  =  this.games[this.games.length-1];
     this.id = currGame.id;
     this.name = currGame.name;
     this.dice_num = currGame.dice_num;
