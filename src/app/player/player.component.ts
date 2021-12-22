@@ -26,6 +26,8 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
 
   constructor(private elementRef: ElementRef, private dataService: DataService) {}
 
+  colScores:string[] = this.dataService.ColScore;
+
   players: Player[] = [];
   getPlayers() : void {
     this.players = this.dataService.getPlayers();
@@ -184,8 +186,10 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
     this.playername.valueChanges.subscribe(selectedValue => {
        let myObj:Player = this.getPlayersById(this.id);
        myObj.name = this.playername.value;
-       console.log(this.players);
-
+       
+       let colidx:number = +this.id.substring(1)+1;
+       console.log(colidx, this.id, this.players);
+      this.colScores[colidx]=this.playername.value;
        
     });
 
