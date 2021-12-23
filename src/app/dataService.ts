@@ -15,6 +15,7 @@ import { SCORES } from "./scores";
 export class DataService {
 
     ColScore = ['round_id','game_id', 'p1_m', 'p2_m', 'p3_m', 'p4_m'];
+    ColPlayer = {"p1_m":"", "p2_m":"","p3_m":"","p4_m":""}
 
     getGames():Game[] {
         return GAMES;

@@ -20,11 +20,15 @@ export class ScoreComponent implements OnInit {
   }
 
   displayedColumns: string[] = [];
+  colToDisplayed: string[] = [];
+
   dataSource = this.scores;
 
   ngOnInit(): void {
     this.getScores();
     this.displayedColumns = this.dataService.getColScore();
+    this.colToDisplayed = this.displayedColumns.slice();
+    
     console.warn(this.scores, this.displayedColumns);
   }
 

@@ -187,8 +187,8 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
        let myObj:Player = this.getPlayersById(this.id);
        myObj.name = this.playername.value;
        
-       let colidx:number = +this.id.substring(1)+1;
-       console.log(colidx, this.id, this.players);
+      let colidx:number = +this.id.substring(1)+1;
+      // console.log(colidx, this.id, this.players);
       this.colScores[colidx]=this.playername.value;
        
     });

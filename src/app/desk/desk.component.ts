@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from '../dataService';
 import { Game } from '../game';
-import { GAMES } from '../games';
+import { Score } from '../score';
 
 @Component({
   selector: 'app-desk',
@@ -25,11 +25,23 @@ export class DeskComponent implements OnInit {
   deal_player: number = 0;
 
   games:Game[] = [];
+  scores: Score[] = [];
 
   getGames(): void {
     this.games = this.dataService.getGames();
   }
 
+  getScores():void{
+    this.scores = this.dataService.getScores();
+  }
+
+  addScore():void{
+    this.getScores();
+    let newScore: Score =  {round_id: 0,  game_id: 0,  p1_m: 0, p2_m: 0, p3_m: 0, p4_m: 0 };
+    this.scores.push(newScore);
+
+  }
+  
   rollDice(): void {
 
     const dp: string[] = ["^","<","v",">"];
@@ -102,6 +114,8 @@ export class DeskComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGames();
+    this.getScores();
+
     let currGame:Game  =  this.games[this.games.length-1];
     this.id = currGame.id;
     this.name = currGame.name;
@@ -110,6 +124,8 @@ export class DeskComponent implements OnInit {
     this.game_wind = currGame.game_wind;
     this.ewind_player = currGame.ewind_player;
     this.deal_player = currGame.deal_player;
+
+    //this.addScore();
 
     console.warn(this.msg);
   };
