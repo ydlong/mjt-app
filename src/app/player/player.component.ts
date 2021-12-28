@@ -189,7 +189,7 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
        
       let colidx:number = +this.id.substring(1)+1;
       // console.log(colidx, this.id, this.players);
-      this.colScores[colidx]=this.playername.value;
+     // this.colScores[colidx]=this.playername.value;
        
     });
 

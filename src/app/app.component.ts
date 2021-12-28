@@ -37,11 +37,11 @@ export class AppComponent implements AfterViewInit, OnInit{
     let newGame:Game =  {id:"g1", name:"1", game_wind:"E", dice_num:0, dice_run:false, ewind_player: 0, deal_player: 0};
     this.games.push(newGame);
 
-    /*
+    
     this.getScores();
     let newScore: Score =  {round_id: 0,  game_id: 0,  p1_m: 0, p2_m: 0, p3_m: 0, p4_m: 0 };
     this.scores.push(newScore);
-    */
+    
     this.testMsg="Something else."
   }
   title = 'mjt-app';
