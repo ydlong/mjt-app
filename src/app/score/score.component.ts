@@ -1,7 +1,7 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, ChangeDetectorRef } from '@angular/core';
 import { DataService } from '../dataService';
 import { Score } from '../score';
-
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-score',
@@ -12,7 +12,7 @@ import { Score } from '../score';
 
 export class ScoreComponent implements OnInit {
 
-  constructor( private dataService: DataService ){}
+  constructor( private dataService: DataService, private changeDetectorRefs: ChangeDetectorRef ){}
 
   scores : Score[] = [];
   getScores() : void {
@@ -26,10 +26,13 @@ export class ScoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.getScores();
+    this.dataSource = this.scores;
+    this.changeDetectorRefs.detectChanges();
+
     this.displayedColumns = this.dataService.getColScore();
     this.colToDisplayed = this.displayedColumns.slice();
     
-    console.warn(this.scores, this.displayedColumns);
+    console.warn("Score data:", this.dataSource, "Displayed columns" , this.displayedColumns);
   }
 
 }

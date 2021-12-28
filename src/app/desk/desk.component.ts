@@ -39,7 +39,7 @@ export class DeskComponent implements OnInit {
     this.getScores();
     let newScore: Score =  {round_id: 0,  game_id: 0,  p1_m: 0, p2_m: 0, p3_m: 0, p4_m: 0 };
     this.scores.push(newScore);
-
+    console.warn("New scores:", this.scores);
   }
   
   rollDice(): void {
@@ -107,6 +107,9 @@ export class DeskComponent implements OnInit {
     this.name = gname.toString();
     this.game_wind = gwwind;
     this.deal_player = gdealPlayer;
+
+    this.addScore();
+    
     console.log(gwwind, newGame);
 
   }
