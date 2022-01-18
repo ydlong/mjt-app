@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {AppMaterialModule} from '../material.module';
+
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
@@ -8,12 +10,13 @@ import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
 import { DeskComponent } from './desk/desk.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScoreComponent } from './score/score.component';
+
 
 
 @NgModule({
@@ -27,7 +30,7 @@ import { ScoreComponent } from './score/score.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    
+    AppMaterialModule,
     ReactiveFormsModule,
     MatGridListModule,
     MatListModule,
@@ -36,7 +39,7 @@ import { ScoreComponent } from './score/score.component';
     MatTableModule,
     MatInputModule,
     MatButtonModule
-  
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

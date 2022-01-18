@@ -1,7 +1,9 @@
-import { Component, OnInit, Output, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, ChangeDetectorRef } from '@angular/core';
 import { DataService } from '../dataService';
 import { Score } from '../score';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable } from '@angular/material/table';
+import { AppService } from '../app.services';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-score',
@@ -9,10 +11,16 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./score.component.css']
 })
 
+export class ScoreComponent implements OnInit, AfterViewInit {
 
-export class ScoreComponent implements OnInit {
-
-  constructor( private dataService: DataService, private changeDetectorRefs: ChangeDetectorRef ){}
+  clickEventsubscription:Subscription;
+  constructor( private dataService: DataService, private appService:AppService){
+    this.clickEventsubscription = this.appService.getClickEvent().subscribe(()=>{
+      this.getScores();
+      this.dataSource = this.scores;
+      this.scoreTable.renderRows();
+    })  
+  }
 
   scores : Score[] = [];
   getScores() : void {
@@ -21,18 +29,15 @@ export class ScoreComponent implements OnInit {
 
   displayedColumns: string[] = [];
   colToDisplayed: string[] = [];
-
   dataSource = this.scores;
 
-  ngOnInit(): void {
-    this.getScores();
-    this.dataSource = this.scores;
-    this.changeDetectorRefs.detectChanges();
+  @ViewChild('scoresTable') scoreTable!: MatTable<any> ;
+  
+  ngAfterViewInit(): void {}
 
+  ngOnInit(): void {
     this.displayedColumns = this.dataService.getColScore();
     this.colToDisplayed = this.displayedColumns.slice();
-    
-    console.warn("Score data:", this.dataSource, "Displayed columns" , this.displayedColumns);
   }
 
 }

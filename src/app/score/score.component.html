@@ -1,5 +1,5 @@
 <div style=" position: absolute; width: 100%; left:5px; top:2px;">
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table #scoresTable [dataSource]="dataSource" class="mat-elevation-z8">
 
     <ng-container matColumnDef="{{col}}" *ngFor="let col of displayedColumns">
       <th mat-header-cell *matHeaderCellDef> {{col}}</th>
