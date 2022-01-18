@@ -1,7 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { fromEventPattern } from 'rxjs';
 import { DataService } from '../dataService';
 import { Game } from '../game';
 import { Score } from '../score';
+import { ScoreComponent } from '../score/score.component';
+import { AppService } from '../app.services';
 
 @Component({
   selector: 'app-desk',
@@ -14,7 +17,8 @@ export class DeskComponent implements OnInit {
 
   @Input() msg='';
 
-  constructor( private dataService: DataService ) { }
+  constructor( private dataService: DataService, 
+               private appService:AppService ) { }
 
   id: string = "";
   name: string =""; 
@@ -35,11 +39,11 @@ export class DeskComponent implements OnInit {
     this.scores = this.dataService.getScores();
   }
 
-  addScore():void{
+  addScore(rid:number, gid:number):void{
     this.getScores();
-    let newScore: Score =  {round_id: 0,  game_id: 0,  p1_m: 0, p2_m: 0, p3_m: 0, p4_m: 0 };
+    let newScore: Score =  {round_id: rid,  game_id: gid,  p1_m: 0, p2_m: 0, p3_m: 0, p4_m: 0 };
     this.scores.push(newScore);
-    console.warn("New scores:", this.scores);
+    this.appService.sendClickEvent();  // refresh score table
   }
   
   rollDice(): void {
@@ -68,8 +72,9 @@ export class DeskComponent implements OnInit {
     }
     dpEle.innerText = dp[dpidx];
     
-
-    console.log(dpidx, dpEle, this.games);
+    if (this.scores.length===0){
+      this.addScore( 0, 0 );
+    }
   };
 
   nxtGame(): void {
@@ -108,9 +113,9 @@ export class DeskComponent implements OnInit {
     this.game_wind = gwwind;
     this.deal_player = gdealPlayer;
 
-    this.addScore();
+    this.addScore(0, gname-1);
     
-    console.log(gwwind, newGame);
+    //console.log(gwwind, newGame);
 
   }
 
@@ -128,9 +133,7 @@ export class DeskComponent implements OnInit {
     this.ewind_player = currGame.ewind_player;
     this.deal_player = currGame.deal_player;
 
-    //this.addScore();
-
-    console.warn(this.msg);
+    //console.warn(this.msg);
   };
 
 }
