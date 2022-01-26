@@ -15,7 +15,7 @@ export class ScoreComponent implements OnInit, AfterViewInit {
 
   clickEventsubscription:Subscription;
   constructor( private dataService: DataService, private appService:AppService){
-    this.clickEventsubscription = this.appService.getClickEvent().subscribe(()=>{
+    this.clickEventsubscription = this.appService.getScoreChangeEvent().subscribe(()=>{
       this.getScores();
       this.dataSource = this.scores;
       this.scoreTable.renderRows();
@@ -28,8 +28,9 @@ export class ScoreComponent implements OnInit, AfterViewInit {
   }
 
   displayedColumns: string[] = [];
-  colToDisplayed: string[] = [];
+  colHeaderToDisplayed: String[] = [];
   dataSource = this.scores;
+  tblDef: Array<any>[] =[];
 
   @ViewChild('scoresTable') scoreTable!: MatTable<any> ;
   
@@ -37,7 +38,16 @@ export class ScoreComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.displayedColumns = this.dataService.getColScore();
-    this.colToDisplayed = this.displayedColumns.slice();
+    let obj = this.dataService.getColPlays();
+    this.tblDef = this.dataService.getTableDef();
+    /*
+    this.colHeaderToDisplayed = Object.keys(obj)
+    .map(function(key) {
+        return obj[key];
+    });
+    console.warn(this.colHeaderToDisplayed);
+    */
+    this.colHeaderToDisplayed = this.displayedColumns.slice();
   }
 
 }

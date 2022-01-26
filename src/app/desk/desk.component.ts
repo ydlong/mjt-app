@@ -5,6 +5,7 @@ import { Game } from '../game';
 import { Score } from '../score';
 import { ScoreComponent } from '../score/score.component';
 import { AppService } from '../app.services';
+import { GAMES } from '../games';
 
 @Component({
   selector: 'app-desk',
@@ -43,9 +44,10 @@ export class DeskComponent implements OnInit {
     this.getScores();
     let newScore: Score =  {round_id: rid,  game_id: gid,  p1_m: 0, p2_m: 0, p3_m: 0, p4_m: 0 };
     this.scores.push(newScore);
-    this.appService.sendClickEvent();  // refresh score table
+    this.appService.sendScoreChangeEvent();  // refresh score table
   }
   
+  // Roll to pick where to start deal
   rollDice(): void {
 
     const dp: string[] = ["^","<","v",">"];
@@ -78,7 +80,7 @@ export class DeskComponent implements OnInit {
   };
 
   nxtGame(): void {
-
+    console.log("Current game: ", GAMES)
     // change wind
     function nxtWind (currWind:string){
       let winds: string[] = ["E","S","W","N"];
@@ -93,9 +95,10 @@ export class DeskComponent implements OnInit {
       return rtWind;
     }
 
-    let gwwind:string = nxtWind(this.game_wind);  
+     // 1. change wind for player
+    let gwwind:string = nxtWind(this.game_wind); 
 
-    // init new game
+    // 2. init new game
     let gname:number = +this.name +1;
     let gid:string = "g"+gname;
     let gdealPlayer:number = 0;
@@ -115,7 +118,7 @@ export class DeskComponent implements OnInit {
 
     this.addScore(0, gname-1);
     
-    //console.log(gwwind, newGame);
+    console.log("New game:", gwwind, newGame);
 
   }
 

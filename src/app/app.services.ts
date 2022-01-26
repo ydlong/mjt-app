@@ -6,16 +6,23 @@ import { Injectable } from '@angular/core';
 
 export class AppService {
     //isAddData: boolean;
-    isAddDataChange: Subject<boolean> = new Subject<boolean>();
+    isScoresChange: Subject<boolean> = new Subject<boolean>();
 
-
-    sendClickEvent() {
-        this.isAddDataChange.next(true);
+    sendScoreChangeEvent() {
+        this.isScoresChange.next(true);
       }
 
-
-    getClickEvent(): Observable<any>{ 
-        return this.isAddDataChange.asObservable();
+    getScoreChangeEvent(): Observable<any>{ 
+        return this.isScoresChange.asObservable();
     }
 
+
+    isPlayerChange: Subject<boolean> = new Subject<boolean>();
+    sendPlayerChangeEvent(){
+        this.isPlayerChange.next(true);
+    }
+
+    getPlayerChageEvent(){
+        return this.isPlayerChange.asObservable();
+    }
 }
