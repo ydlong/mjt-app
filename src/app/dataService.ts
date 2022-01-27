@@ -28,21 +28,22 @@ export class DataService {
         return SCORES;
     }
 
-    //Score Header
+    //Score table columnzs
     ColScore = ['round_id','game_id', 'p1_m', 'p2_m', 'p3_m', 'p4_m'];
-    ColPlayer = {"p1_m":"p1_m", "p2_m":"p2_m","p3_m":"p3_m","p4_m":"p4_m"}
+   
+    //Score table Headers for columns
     tableDef: Array<any> = [
         { key: 'p1_m',
           header: 'Player 1',
           className: '' }, 
-        { key: 'P2_m',
-          header: 'Play 2',
+        { key: 'p2_m',
+          header: 'Player 2',
           className: ''},    
-        { key: 'P3_m',
-          header: 'Play 3',
+        { key: 'p3_m',
+          header: 'Player 3',
           className: ''},    
-        { key: 'P4_m',
-          header: 'Play 4',
+        { key: 'p4_m',
+          header: 'Player 4',
           className: ''},    
         { key: 'round_id',
           header: 'Round',
@@ -54,10 +55,6 @@ export class DataService {
 
     getColScore():string[] {
         return this.ColScore;
-    }
-
-    getColPlays():any {
-        return this.ColPlayer;
     }
 
     getTableDef():Array<any>[] {

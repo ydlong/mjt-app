@@ -31,10 +31,21 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
     this.players = this.dataService.getPlayers();
   }
 
+  tblDef: Array<any> =[];
+  getTblDef():void{
+    this.tblDef = this.dataService.getTableDef();
+  }
+
   getPlayersById (pid:string): Player {
     let myObj:Player = PLAYERS.find(e => e.id === this.id)!;
     return myObj;
   }
+
+  setTblPlayersById (pid:string, pname:string): void  {
+    let myObj = this.tblDef.find(e => e.key === pid)!;
+    myObj.header = pname;
+    console.warn(pid, myObj);
+  }  
    
   setDicenum( dnum: number){
     this.dice_num=dnum;
@@ -179,23 +190,22 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
   ngOnInit(): void {
 
     this.getPlayers();
+    this.getTblDef();
 
     // Change name listner
     this.playername.valueChanges.subscribe(selectedValue => {
-       let myObj:Player = this.getPlayersById(this.id);
-       myObj.name = this.playername.value;
-       
-       let colidx:number = +this.id.substring(1)+1;
-       console.log(colidx, this.id, this.players);
-     // this.colScores[colidx]=this.playername.value;
-       
+       let playerObj:Player = this.getPlayersById(this.id);
+       playerObj.name = this.playername.value;
+       let pid = this.id+"_m";
+       let tblObj = this.tblDef.find(e => e.key === pid)!;
+       tblObj.header = playerObj.name;     
     });
 
-    let myObj:Player  = this.getPlayersById(this.id);
-    this.pname = myObj.name;
+    let playerObj:Player  = this.getPlayersById(this.id);
+    this.pname = playerObj.name;
     this.playername.setValue( this.pname );  
-    this.curr_wind = myObj.curr_wind;
-    this.dice_run = myObj.dice_run;
+    this.curr_wind = playerObj.curr_wind;
+    this.dice_run = playerObj.dice_run;
   }
 
   ngAfterViewInit(): void {

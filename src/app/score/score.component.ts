@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 export class ScoreComponent implements OnInit, AfterViewInit {
 
   clickEventsubscription:Subscription;
+
   constructor( private dataService: DataService, private appService:AppService){
     this.clickEventsubscription = this.appService.getScoreChangeEvent().subscribe(()=>{
       this.getScores();
@@ -30,23 +31,24 @@ export class ScoreComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [];
   colHeaderToDisplayed: String[] = [];
   dataSource = this.scores;
-  tblDef: Array<any>[] =[];
+  tblDef: Array<any> = [];
 
   @ViewChild('scoresTable') scoreTable!: MatTable<any> ;
-  
-  ngAfterViewInit(): void {}
 
-  ngOnInit(): void {
-    this.displayedColumns = this.dataService.getColScore();
-    let obj = this.dataService.getColPlays();
-    this.tblDef = this.dataService.getTableDef();
-    /*
+  // Not using
+  objLookup(obj:any):void{
     this.colHeaderToDisplayed = Object.keys(obj)
     .map(function(key) {
         return obj[key];
     });
     console.warn(this.colHeaderToDisplayed);
-    */
+  }
+
+  ngAfterViewInit(): void {}
+
+  ngOnInit(): void {
+    this.displayedColumns = this.dataService.getColScore();
+    this.tblDef = this.dataService.getTableDef();  
     this.colHeaderToDisplayed = this.displayedColumns.slice();
   }
 
