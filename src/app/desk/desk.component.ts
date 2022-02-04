@@ -79,9 +79,10 @@ export class DeskComponent implements OnInit {
     }
   };
 
+  // Re-assign Ewind_player, dealStart, add new score row
   nxtGame(): void {
-    console.log("Current game: ", GAMES)
-    // change wind
+    console.log("Current game: ", GAMES, "EWind Player: " ,  this.ewind_player)
+        // change wind
     function nxtWind (currWind:string){
       let winds: string[] = ["E","S","W","N"];
       let currWindIdx = winds.indexOf(currWind);
