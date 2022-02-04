@@ -66,12 +66,9 @@ export class DeskComponent implements OnInit {
     diceEle.style.display = "none";
     dealEle.style.display = "";
     let dpEle = (<HTMLElement>document.getElementById("dealpointer"));
-    let dpidx = 0;
-    if (diceNum%4==0){
-      dpidx = diceNum%4 + game.ewind_player;
-    } else {
-      dpidx = diceNum%4-1 + game.ewind_player;
-    }
+
+    let dpidx =  (game.ewind_player+diceNum-1)%4  ;
+          
     dpEle.innerText = dp[dpidx];
     
     if (this.scores.length===0){
@@ -81,6 +78,7 @@ export class DeskComponent implements OnInit {
 
   nxtGame(): void {
     console.log("Current game: ", GAMES)
+
     // change wind
     function nxtWind (currWind:string){
       let winds: string[] = ["E","S","W","N"];
@@ -95,7 +93,11 @@ export class DeskComponent implements OnInit {
       return rtWind;
     }
 
-     // 1. change wind for player
+    function changePlayerWind(){
+
+    }
+    
+     // 1. change wind for players
     let gwwind:string = nxtWind(this.game_wind); 
 
     // 2. init new game
