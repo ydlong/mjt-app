@@ -79,7 +79,7 @@ export class DeskComponent implements OnInit {
 
 
     nxtGame(): void {
-    console.log("Current game: ", GAMES)
+    console.log("Current game: ", GAMES[GAMES.length-1])
 
     // change wind
     function nxtWind (currWind:string){
@@ -96,11 +96,12 @@ export class DeskComponent implements OnInit {
     }
 
     function changePlayerWind(){
-
+        console.warn()
     }
     
      // 1. change wind for players
     let gwwind:string = nxtWind(this.game_wind); 
+    changePlayerWind();
 
     // 2. init new game
     let gname:number = +this.name +1;
@@ -122,7 +123,7 @@ export class DeskComponent implements OnInit {
 
     this.addScore(0, gname-1);
     
-    console.log("New game:", gwwind, newGame);
+    //console.log("New game:", gwwind, newGame);
 
   }
 
