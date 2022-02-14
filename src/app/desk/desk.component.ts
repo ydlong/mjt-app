@@ -46,102 +46,116 @@ export class DeskComponent implements OnInit {
     this.scores.push(newScore);
     this.appService.sendScoreChangeEvent();  // refresh score table
   }
+
+  addNewGame(g:Game):void {
+    this.games.push(g);
+  }
   
   // Roll to pick where to start deal
   rollDice(): void {
 
-    const dp: string[] = ["^","<","v",">"];
+        const dp: string[] = ["^","<","v",">"];
 
-    let randomNumber1:number = Math.floor(1+Math.random() * 6) ;
-    let randomNumber2:number = Math.floor(1+Math.random() * 6) ;
-    //console.log(randomNumber1,randomNumber2);
-    let diceNum = randomNumber1+randomNumber2;
-    this.dice_num = diceNum;
-    this.dice_run = true;
-    let game:Game = this.games[this.games.length-1];
-    game.dice_num = diceNum;
+        let randomNumber1:number = Math.floor(1+Math.random() * 6) ;
+        let randomNumber2:number = Math.floor(1+Math.random() * 6) ;
+        //console.log(randomNumber1,randomNumber2);
+        let diceNum = randomNumber1+randomNumber2;
+        this.dice_num = diceNum;
+        this.dice_run = true;
 
-    let dealEle = (<HTMLElement>document.getElementById("deal"));
-    let diceEle = (<HTMLElement>document.getElementById("dice"));
-    diceEle.style.display = "none";
-    dealEle.style.display = "";
-    let dpEle = (<HTMLElement>document.getElementById("dealpointer"));
+        let game: Game = this.games[this.games.length-1];
+        this.dice_num = diceNum;
+        game.dice_run = this.dice_run;
+        game.dice_num = this.dice_num;
 
-    let dpidx =  (game.ewind_player+diceNum-1)%4  ;
-          
-    dpEle.innerText = dp[dpidx];
-    
-    if (this.scores.length===0){
-      this.addScore( 0, 0 );
-    }
+        let dealEle = (<HTMLElement>document.getElementById("deal"));
+        let diceEle = (<HTMLElement>document.getElementById("dice"));
+        diceEle.style.display = "none";
+        dealEle.style.display = "";
+        let dpEle = (<HTMLElement>document.getElementById("dealpointer"));
+
+        let dpidx =  (game.ewind_player+diceNum-1)%4  ;
+              
+        dpEle.innerText = dp[dpidx];
+        
+        this.deal_player = dpidx;
+        game.deal_player = this.deal_player;
+
+        if (this.scores.length===0){
+          this.addScore( 0, 0 );
+        }
+        console.warn(game);
   };
 
 
 
     nxtGame(): void {
-    console.log("Current game: ", GAMES[GAMES.length-1])
+    // console.log("Current game: ", GAMES[GAMES.length-1])
 
-    // change wind
-    function nxtWind (currWind:string){
-      let winds: string[] = ["E","S","W","N"];
-      let currWindIdx = winds.indexOf(currWind);
-      let rtWind:string = "";
+        // change wind
+        function nxtWind (currWind:string){
+          let winds: string[] = ["E","S","W","N"];
+          let currWindIdx = winds.indexOf(currWind);
+          let rtWind:string = "";
 
-      if (currWindIdx<3){
-        rtWind = winds[currWindIdx+1];
-      } else {
-        rtWind = winds[0];
-      }
-      return rtWind;
-    }
+          if (currWindIdx<3){
+            rtWind = winds[currWindIdx+1];
+          } else {
+            rtWind = winds[0];
+          }
+          return rtWind;
+        }
 
-    function changePlayerWind(){
-        console.warn()
-    }
+        function changePlayerWind(ewp:number){
+            console.warn(ewp)
+        }
     
-     // 1. change wind for players
-    let gwwind:string = nxtWind(this.game_wind); 
-    changePlayerWind();
+        // 1. change wind for players
+        let gwwind:string = nxtWind(this.game_wind); 
+        changePlayerWind(this.ewind_player);
 
-    // 2. init new game
-    let gname:number = +this.name +1;
-    let gid:string = "g"+gname;
-    let gdealPlayer:number = 0;
+        // 2. init new game
+        let gname:number = +this.name +1;
+        let gid:string = "g"+gname;
+        let gdealPlayer:number = 0;
 
-    if(this.deal_player<3){
-      gdealPlayer = this.deal_player+1;
-    } else {
-      gdealPlayer = 0;
-    }
+        if(this.deal_player<3){
+          gdealPlayer = this.deal_player+1;
+        } else {
+          gdealPlayer = 0;
+        }
 
     
-    let newGame:Game =  {id:gid, name: gname.toString(), game_wind: gwwind, dice_num:0, dice_run:false, ewind_player: 0, deal_player: gdealPlayer};
-    this.id = gid;
-    this.name = gname.toString();
-    this.game_wind = gwwind;
-    this.deal_player = gdealPlayer;
+        let newGame:Game =  {id:gid, name: gname.toString(), game_wind: gwwind, dice_num:0, dice_run:false, ewind_player: 0, deal_player: gdealPlayer};
+        this.id = gid;
+        this.name = gname.toString();
+        this.game_wind = gwwind;
+        this.deal_player = gdealPlayer;
 
-    this.addScore(0, gname-1);
-    
-    //console.log("New game:", gwwind, newGame);
+        this.addScore(0, gname-1);
+        this.addNewGame(newGame);
+        //console.log("New game:", gwwind, newGame);
 
   }
 
 
   ngOnInit(): void {
-    this.getGames();
-    this.getScores();
+        this.getGames();
+        let newGame: Game =  {id:"g1", name:"1", game_wind:"E", dice_num:0, dice_run:false, ewind_player: -99, deal_player: -99};
+        this.games.push(newGame);
+       
+        this.getScores();
 
-    let currGame:Game  =  this.games[this.games.length-1];
-    this.id = currGame.id;
-    this.name = currGame.name;
-    this.dice_num = currGame.dice_num;
-    this.dice_run = currGame.dice_run;
-    this.game_wind = currGame.game_wind;
-    this.ewind_player = currGame.ewind_player;
-    this.deal_player = currGame.deal_player;
-
-    //console.warn(this.msg);
+        let currGame:Game  =  this.games[this.games.length-1];
+        this.id = currGame.id;
+        this.name = currGame.name;
+        this.dice_num = currGame.dice_num;
+        this.dice_run = currGame.dice_run;
+        this.game_wind = currGame.game_wind;
+        this.ewind_player = currGame.ewind_player;
+        this.deal_player = currGame.deal_player;
+        console.warn(currGame);
+        //console.warn(this.msg);
   };
 
 }

@@ -33,9 +33,9 @@ export class AppComponent implements AfterViewInit, OnInit{
 
   ngOnInit(): void {   
     // Initialize new game
-    this.getGames();
-    let newGame:Game =  {id:"g1", name:"1", game_wind:"E", dice_num:0, dice_run:false, ewind_player: 0, deal_player: 0};
-    this.games.push(newGame);
+    //this.getGames();
+    //let newGame:Game =  {id:"g1", name:"1", game_wind:"E", dice_num:0, dice_run:false, ewind_player: -99, deal_player: -99};
+    //this.games.push(newGame);
 
     this.testMsg="Something else."
   }
