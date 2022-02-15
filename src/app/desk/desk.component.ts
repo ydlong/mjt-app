@@ -6,6 +6,7 @@ import { Score } from '../score';
 import { ScoreComponent } from '../score/score.component';
 import { AppService } from '../app.services';
 import { GAMES } from '../games';
+import { Player } from '../player';
 
 @Component({
   selector: 'app-desk',
@@ -30,17 +31,23 @@ export class DeskComponent implements OnInit {
   deal_player: number = 0;
 
   games:Game[] = [];
+  players: Player[] = [];
   scores: Score[] = [];
+
 
   getGames(): void {
     this.games = this.dataService.getGames();
+  }
+
+  getPlaysrs():void {
+    this.players = this.dataService.getPlayers();
   }
 
   getScores():void{
     this.scores = this.dataService.getScores();
   }
 
-  addScore(rid:number, gid:number):void{
+  addScore(rid:string, gid:number):void{
     this.getScores();
     let newScore: Score =  {round_id: rid,  game_id: gid,  p1_m: 0, p2_m: 0, p3_m: 0, p4_m: 0 };
     this.scores.push(newScore);
@@ -82,18 +89,18 @@ export class DeskComponent implements OnInit {
         game.deal_player = this.deal_player;
 
         if (this.scores.length===0){
-          this.addScore( 0, 0 );
+          this.addScore( this.game_wind, 1 );
         }
-        console.warn(game);
+        console.warn(game, this.players, this.scores);
   };
 
 
 
     nxtGame(): void {
-    // console.log("Current game: ", GAMES[GAMES.length-1])
+   
 
         // change wind
-        function nxtWind (currWind:string){
+        function nxtWind (currWind:string) : string{
           let winds: string[] = ["E","S","W","N"];
           let currWindIdx = winds.indexOf(currWind);
           let rtWind:string = "";
@@ -106,24 +113,38 @@ export class DeskComponent implements OnInit {
           return rtWind;
         }
 
-        function changePlayerWind(ewp:number){
-            console.warn(ewp)
+        function shiftEwindPlayer(pArr:Player[]):Player[]{
+            let currWindArr:string[] = pArr.map(({ curr_wind}) => curr_wind);
+            currWindArr.unshift(currWindArr.pop()+"");
+
+            pArr.forEach(function (p, idx){
+              p.curr_wind=currWindArr[idx];
+              let pEle = (<HTMLElement>document.getElementById("wind_p"+(idx+1)));
+              pEle.childNodes[1].textContent = currWindArr[idx];
+            });
+            return pArr;
         }
     
-        // 1. change wind for players
-        let gwwind:string = nxtWind(this.game_wind); 
-        changePlayerWind(this.ewind_player);
+        // 1. shift player's wind
+        this.players = shiftEwindPlayer(this.players);
+        var ewp_idx = this.players.findIndex(p => p.curr_wind == "E");
+        console.warn(ewp_idx, this.players);
 
         // 2. init new game
         let gname:number = +this.name +1;
         let gid:string = "g"+gname;
-        let gdealPlayer:number = 0;
+        let gdealPlayer:number = -99;
 
+        // check if need to change gwind
+        let gwwind:string = nxtWind(this.game_wind); 
+
+        // 3. enable dice 
+        /*
         if(this.deal_player<3){
           gdealPlayer = this.deal_player+1;
         } else {
           gdealPlayer = 0;
-        }
+        } */
 
     
         let newGame:Game =  {id:gid, name: gname.toString(), game_wind: gwwind, dice_num:0, dice_run:false, ewind_player: 0, deal_player: gdealPlayer};
@@ -132,7 +153,7 @@ export class DeskComponent implements OnInit {
         this.game_wind = gwwind;
         this.deal_player = gdealPlayer;
 
-        this.addScore(0, gname-1);
+        this.addScore(this.game_wind, gname);
         this.addNewGame(newGame);
         //console.log("New game:", gwwind, newGame);
 
@@ -145,6 +166,7 @@ export class DeskComponent implements OnInit {
         this.games.push(newGame);
        
         this.getScores();
+        this.getPlaysrs();
 
         let currGame:Game  =  this.games[this.games.length-1];
         this.id = currGame.id;
