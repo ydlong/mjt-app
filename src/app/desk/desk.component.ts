@@ -7,6 +7,8 @@ import { ScoreComponent } from '../score/score.component';
 import { AppService } from '../app.services';
 import { GAMES } from '../games';
 import { Player } from '../player';
+import { ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { DATE_PIPE_DEFAULT_TIMEZONE } from '@angular/common';
 
 @Component({
   selector: 'app-desk',
@@ -58,6 +60,24 @@ export class DeskComponent implements OnInit {
     this.games.push(g);
   }
   
+
+  showHideDice(show:boolean):void {
+    console.warn("show hide dice: ", show);
+    let dealEle = (<HTMLElement>document.getElementById("deal"));
+    let diceEle = (<HTMLElement>document.getElementById("dice"));
+    let dealPTEle = (<HTMLElement>document.getElementById("dealpointer"));
+
+    if (show){
+      diceEle.style.display = "";
+      dealPTEle.style.display = "none";
+      dealEle.style.display = "none";
+    } else {
+      diceEle.style.display = "none";
+      dealPTEle.style.display = "";
+      dealEle.style.display = "";
+    }
+  }
+
   // Roll to pick where to start deal
   rollDice(): void {
 
@@ -80,7 +100,7 @@ export class DeskComponent implements OnInit {
         diceEle.style.display = "none";
         dealEle.style.display = "";
         let dpEle = (<HTMLElement>document.getElementById("dealpointer"));
-
+        dpEle.style.display = "";
         let dpidx =  (game.ewind_player+diceNum-1)%4  ;
               
         dpEle.innerText = dp[dpidx];
@@ -135,10 +155,15 @@ export class DeskComponent implements OnInit {
         let gid:string = "g"+gname;
         let gdealPlayer:number = -99;
 
+        let gwwind:string = this.game_wind;
         // check if need to change gwind
-        let gwwind:string = nxtWind(this.game_wind); 
+        if (gname>4 && gname%4===1){
+          gwwind = nxtWind(this.game_wind); 
+        }
 
         // 3. enable dice 
+        this.dice_num = 0;
+        this.showHideDice(true);
         /*
         if(this.deal_player<3){
           gdealPlayer = this.deal_player+1;
@@ -147,7 +172,7 @@ export class DeskComponent implements OnInit {
         } */
 
     
-        let newGame:Game =  {id:gid, name: gname.toString(), game_wind: gwwind, dice_num:0, dice_run:false, ewind_player: 0, deal_player: gdealPlayer};
+        let newGame:Game =  {id:gid, name: gname.toString(), game_wind: gwwind, dice_num:0, dice_run:false, ewind_player: ewp_idx, deal_player: gdealPlayer};
         this.id = gid;
         this.name = gname.toString();
         this.game_wind = gwwind;
@@ -155,7 +180,7 @@ export class DeskComponent implements OnInit {
 
         this.addScore(this.game_wind, gname);
         this.addNewGame(newGame);
-        //console.log("New game:", gwwind, newGame);
+        console.log(this.games);
 
   }
 
