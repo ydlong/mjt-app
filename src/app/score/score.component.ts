@@ -4,6 +4,8 @@ import { Score } from '../score';
 import { MatTable } from '@angular/material/table';
 import { AppService } from '../app.services';
 import { Subscription } from 'rxjs';
+import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-score',
@@ -50,6 +52,7 @@ export class ScoreComponent implements OnInit, AfterViewInit {
     this.displayedColumns = this.dataService.getColScore();
     this.tblDef = this.dataService.getTableDef();  
     this.colHeaderToDisplayed = this.displayedColumns.slice();
+    
   }
 
 }
