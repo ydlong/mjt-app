@@ -4,6 +4,7 @@ import { Score } from '../score';
 import { MatTable } from '@angular/material/table';
 import { AppService } from '../app.services';
 import { Subscription } from 'rxjs';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-score',
@@ -13,9 +14,12 @@ import { Subscription } from 'rxjs';
 
 export class ScoreComponent implements OnInit, AfterViewInit {
 
+  public mtformgroup!: FormGroup;
+  public mtformarray!: FormArray;
+
   clickEventsubscription:Subscription;
 
-  constructor( private dataService: DataService, private appService:AppService){
+  constructor( private dataService: DataService, private appService:AppService, private fb:FormBuilder){
     this.clickEventsubscription = this.appService.getScoreChangeEvent().subscribe(()=>{
       this.getScores();
       this.dataSource = this.scores;
@@ -50,6 +54,9 @@ export class ScoreComponent implements OnInit, AfterViewInit {
     this.displayedColumns = this.dataService.getColScore();
     this.tblDef = this.dataService.getTableDef();  
     this.colHeaderToDisplayed = this.displayedColumns.slice();
+    this.mtformarray = this.fb.array([]);
+    this.mtformgroup = this.fb.group({FormArray: this.mtformarray});
+    
   }
 
 }
