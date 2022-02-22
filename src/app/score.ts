@@ -1,5 +1,5 @@
 export interface Score {
-    round_id: number;
+    round_id: string;
     game_id: number;
     p1_m: number;
     p2_m: number;
