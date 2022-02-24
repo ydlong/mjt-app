@@ -1,17 +1,27 @@
 
 <div style=" position: absolute; width: 100%; left:5px; top:2px;">
- 
-    <table mat-table #scoresTable [dataSource]="dataSource" class="mat-elevation-z8">
+  <form #form [formGroup]="form_g">
+    <table mat-table #scoresTable [dataSource]="dataSource" formArrayName = "farray" class="mat-elevation-z8">
 
       <ng-container *ngFor="let def of tblDef">    
         <ng-container [matColumnDef]="def.key"> 
           <th mat-header-cell *matHeaderCellDef> {{def.header}} </th>
-          <td mat-cell *matCellDef="let element"> {{element[def.key]}}  </td>
+          <td mat-cell *matCellDef="let element" > 
+            <ng-container *ngIf="def.formCol===true;">
+              <mat-form-field [style.width.px]=50 >
+                <input matInput type="text" value={{element[def.key]}}  />
+              </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngIf="def.formCol===false;">
+                {{element[def.key]}}
+            </ng-container>
+          </td>
         </ng-container>
       </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="colHeaderToDisplayed"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
+  </form> 
 </div>

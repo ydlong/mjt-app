@@ -15,12 +15,24 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 export class ScoreComponent implements OnInit, AfterViewInit {
 
-  //public mtformgroup!: FormGroup;
-  //public mtformarray!: FormArray;
+  form_a = this.fb.array([]);
+  form_g = this.fb.group({ farray: this.form_a });
+  get farray(){
+    return this.form_g.controls["farray"] as FormArray;
+  }
+  addFarry(){
+    const scForm = this.fb.group({
+      // the score row 
+      
+    });
+    this.farray.push(scForm);
+  }
+
+  
 
   clickEventsubscription:Subscription;
 
-  constructor( private dataService: DataService, private appService:AppService){
+  constructor( private dataService: DataService, private appService:AppService, private fb:FormBuilder){
     this.clickEventsubscription = this.appService.getScoreChangeEvent().subscribe(()=>{
       this.getScores();
       this.dataSource = this.scores;
@@ -37,6 +49,7 @@ export class ScoreComponent implements OnInit, AfterViewInit {
   colHeaderToDisplayed: String[] = [];
   dataSource = this.scores;
   tblDef: Array<any> = [];
+  
 
   @ViewChild('scoresTable') scoreTable!: MatTable<any> ;
 
@@ -57,7 +70,8 @@ export class ScoreComponent implements OnInit, AfterViewInit {
     this.colHeaderToDisplayed = this.displayedColumns.slice();
     //this.mtformarray = this.fb.array([]);
     //this.mtformgroup = this.fb.group({FormArray: this.mtformarray});
-    
+    console.log(this.farray);
+    this.form_a = this.farray;
   }
 
 }
