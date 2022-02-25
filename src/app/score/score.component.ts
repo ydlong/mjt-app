@@ -59,7 +59,7 @@ export class ScoreComponent implements OnInit, AfterViewInit {
     .map(function(key) {
         return obj[key];
     });
-    console.warn(this.colHeaderToDisplayed);
+    //console.warn(this.colHeaderToDisplayed);
   }
 
   ngAfterViewInit(): void {}
