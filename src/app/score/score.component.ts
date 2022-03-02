@@ -37,6 +37,7 @@ export class ScoreComponent implements OnInit, AfterViewInit {
       this.getScores();
       this.dataSource = this.scores;
       this.scoreTable.renderRows();
+      console.warn("Score list: ", this.scores);
     })  
   }
 
