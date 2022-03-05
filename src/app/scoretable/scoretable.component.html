@@ -1,6 +1,6 @@
 
 <form #elementsForm="ngForm">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table #scoresTable_1 [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container *ngFor="let def of tblDef; let i = index">
         <ng-container [matColumnDef]="def.key">
             <th mat-header-cell *matHeaderCellDef> {{def.header}} </th>
@@ -8,7 +8,7 @@
                 
                 <!--ng-container *ngIf="def.formCol===true;" -->
                     <mat-form-field [style.width.px]=50>
-                        <input matInput type="text" value={{element[def.key] }}  [(ngModel)]=element[def.key]   />
+                        <input matInput type="text" name={{def.key}}-{{i}}   [(ngModel)]=element[def.key]  />
                     </mat-form-field>
                 <!--/ng-container>
     
