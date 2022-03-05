@@ -4,7 +4,7 @@ import { Score } from '../score';
 import { MatTable } from '@angular/material/table';
 import { AppService } from '../app.services';
 import { Subscription } from 'rxjs';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -28,7 +28,8 @@ export class ScoreComponent implements OnInit, AfterViewInit {
     this.farray.push(scForm);
   }
 
-  
+  scoresForm: any;
+
 
   clickEventsubscription:Subscription;
 
@@ -49,6 +50,7 @@ export class ScoreComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [];
   colHeaderToDisplayed: String[] = [];
   dataSource = this.scores;
+  
   tblDef: Array<any> = [];
   
 
@@ -63,6 +65,8 @@ export class ScoreComponent implements OnInit, AfterViewInit {
     //console.warn(this.colHeaderToDisplayed);
   }
 
+  scorechng():void {console.warn(this.scores)}
+
   ngAfterViewInit(): void {}
 
   ngOnInit(): void {
@@ -71,8 +75,7 @@ export class ScoreComponent implements OnInit, AfterViewInit {
     this.colHeaderToDisplayed = this.displayedColumns.slice();
     //this.mtformarray = this.fb.array([]);
     //this.mtformgroup = this.fb.group({FormArray: this.mtformarray});
-    console.log(this.farray);
-    this.form_a = this.farray;
+
   }
 
 }

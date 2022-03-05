@@ -3,7 +3,6 @@ import { DataService } from './dataService';
 import { Game } from './game';
 import { Score } from './score';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
