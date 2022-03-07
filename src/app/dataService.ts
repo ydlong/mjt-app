@@ -59,6 +59,8 @@ export class DataService {
           formCol: false},
       ];
 
+
+
     getColScore():string[] {
         return this.ColScore;
     }

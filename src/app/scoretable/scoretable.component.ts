@@ -32,12 +32,11 @@ export class ScoretableComponent implements OnInit {
     tblDef: Array<any> = [];
 
 
-    /*
-    refresh():void{
-        this.getScores();
-        this.dataSource = new MatTableDataSource<Score>(this.scores);
-        console.warn(this.dataSource.data);
-    }*/
+    /** Gets the total cost of all transactions. */
+    getTotalCost(x:any) {
+        console.warn(x);
+        return this.scores.map(s => s.p1_m).reduce((acc:number, value:number) => Number(acc) + Number(value), 0);
+    }    
 
     ngOnInit() {
 
