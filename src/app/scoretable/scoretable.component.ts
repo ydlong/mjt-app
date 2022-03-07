@@ -34,8 +34,21 @@ export class ScoretableComponent implements OnInit {
 
     /** Gets the total cost of all transactions. */
     getTotalCost(x:any) {
-        console.warn(x);
-        return this.scores.map(s => s.p1_m).reduce((acc:number, value:number) => Number(acc) + Number(value), 0);
+          let rt:number=0;
+        if(x==="p1_m"){
+            rt = this.scores.map(s => s.p1_m).reduce((acc:number, value:number) => Number(acc) + Number(value), 0);
+        }
+        if (x === "p2_m") {
+            rt = this.scores.map(s => s.p2_m).reduce((acc: number, value: number) => Number(acc) + Number(value), 0);
+        }
+        if (x === "p3_m") {
+            rt = this.scores.map(s => s.p3_m).reduce((acc: number, value: number) => Number(acc) + Number(value), 0);
+        }
+        if (x === "p4_m") {
+            rt = this.scores.map(s => s.p4_m).reduce((acc: number, value: number) => Number(acc) + Number(value), 0);
+        }
+
+        return rt;
     }    
 
     ngOnInit() {

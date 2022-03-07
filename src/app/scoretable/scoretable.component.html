@@ -1,4 +1,4 @@
-
+<div style=" position: absolute; width: 100%; left:5px; top:2px;">
 <form #elementsForm="ngForm">
     <table mat-table #scoresTable_1 [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container *ngFor="let def of tblDef;">
@@ -17,8 +17,8 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
     </table>
 </form>
-
-<p style="color: aliceblue;">
+</div>
+<!--p style="color: aliceblue;">
     Data:
     {{dataSource.data | json}}
-</p>
+</p-->
