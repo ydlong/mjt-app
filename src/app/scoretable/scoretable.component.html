@@ -6,7 +6,7 @@
             <th mat-header-cell *matHeaderCellDef> {{def.header}} </th>
             <td mat-cell *matCellDef="let element; let idx=index">
                 <mat-form-field [style.width.px]=50>
-                    <input matInput type="{{def.formCol===true?'number':'text' }}" name={{def.key}}_{{idx}} [disabled]="def.formCol != true? true : false"  [(ngModel)]=element[def.key]  />
+                    <input matInput type="{{def.formCol===true?'number':'text' }}" name={{def.key}}_{{idx}} [disabled]="def.formCol != true? true : false"  [(ngModel)]=element[def.key]   />
                 </mat-form-field>
             </td>
             <td mat-footer-cell *matFooterCellDef> {{def.formCol ==true ?getTotalCost(def.key):"" }} </td>

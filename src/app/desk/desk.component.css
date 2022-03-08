@@ -1,0 +1,20 @@
+
+@media only screen and (max-width: 380px) {
+    .wrapper .mat-list-item {
+    height: 28px;
+    }
+}
+
+@media only screen and (min-width: 380px) {
+    .wrapper .mat-list-item {
+    height: 35px;
+    }
+    
+}
+
+@media only screen and (min-width: 670px) {
+    .wrapper .mat-list-item {
+    height: 45px;
+    }
+    
+}

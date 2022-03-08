@@ -1,28 +1,28 @@
-<div style="max-width:370px; ">
+<div style="max-width:670px; ">
 <h1 style="display: flex; justify-content:center; color:floralwhite" >Mahjong Tracker</h1>
 
-<mat-grid-list cols="7" rowHeight="1:3">
-    <mat-grid-tile></mat-grid-tile>
+<mat-grid-list cols="9" rowHeight="1:4" style="color: aliceblue;">
+    <mat-grid-tile colspan="2"></mat-grid-tile>
     <mat-grid-tile colspan="5">
         <app-player id="p1"></app-player>
     </mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile colspan="2"></mat-grid-tile>
 
-    <mat-grid-tile>
+    <mat-grid-tile colspan="2">
         <app-player id="p2"></app-player>
     </mat-grid-tile>
     <mat-grid-tile colspan="5">
         <app-desk id="desk" [msg]="testMsg"></app-desk>
     </mat-grid-tile>
-    <mat-grid-tile>
+    <mat-grid-tile colspan="2">
         <app-player id="p4"></app-player>
     </mat-grid-tile>
 
-    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile colspan="2"></mat-grid-tile>
     <mat-grid-tile colspan="5">
         <app-player id="p3"></app-player>
     </mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>  
+    <mat-grid-tile colspan="2"></mat-grid-tile> 
 </mat-grid-list>
 <br>
 <mat-grid-list cols="1" rowHeight="1:2" >
