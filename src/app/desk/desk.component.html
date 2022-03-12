@@ -4,15 +4,16 @@
 <mat-list  role="list">
     <mat-list-item role="listitem" style="display: flex; justify-content:center; color:floralwhite" > Wind: &nbsp;&nbsp; <span matBadge="{{game_wind}}" matBadgeOverlap="false"></span></mat-list-item>
     <mat-list-item role="listitem" style="display: flex; justify-content:center; " >
-      <button mat-icon-button id="dice" aria-label="Example casino icon" style="color:orangered; background-color:darkgreen; " (click) = "rollDice()">
+      <button mat-icon-button id="dice" aria-label="Example casino icon" style="display: none; color:orangered; background-color:darkgreen; " (click) = "rollDice()">
         <mat-icon style="font-size: 30px;">casino</mat-icon> <mat-icon style="font-size: 30px;">casino</mat-icon> 
       </button>
       <div id="deal" style="display: none; color:floralwhite">Deal start: </div>
 
         <!--mat-icon aria-hidden="false" aria-label="Example casino icon" style="font-size:30px; color: rgb(238, 25, 25);">casino</mat-icon>
         <mat-icon aria-hidden="false" aria-label="Example casino icon" style="font-size:30px; color: rgb(238, 25, 25);">casino</mat-icon-->
-        
+        <div id="deal_dice_num" style="display: none;">
         <span  matBadge="{{dice_num}}" matBadgeOverlap="false" style="margin-left: 25px;" ></span>  <span style="padding-left: 30px; color: white; font-size: 30px;" id="dealpointer"></span>
+        </div>
     </mat-list-item>
     <mat-list-item role="listitem" style="display: flex; justify-content:center; color: floralwhite; ">
       Game:&nbsp;&nbsp;
@@ -20,8 +21,9 @@
     </mat-list-item>
 <br>
     <mat-list-item role="listitem" style="display: flex; justify-content:center; color: floralwhite; ">
-      <button mat-raised-button color="warn" (click)="nxtGame()" style="left: align-self; margin-right: 30px; ">Next game</button>
+      <button id="nxtgame" mat-raised-button color="warn" (click)="nxtGame()" style="display: none; left: align-self; margin-right: 30px; ">Next game</button>
     </mat-list-item>
   </mat-list>
   <!--button mat-raised-button color="warn" (click) = "nxtGame()"  style="left: align-self; margin-right: 30px; ">Next game</button-->
+  <div id="promtxt" style="position:relative;left: -80px; bottom: -50px;">Please roll player's dice to start.</div>
 </div>

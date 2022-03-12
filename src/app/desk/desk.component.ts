@@ -9,6 +9,7 @@ import { GAMES } from '../games';
 import { Player } from '../player';
 import { ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { DATE_PIPE_DEFAULT_TIMEZONE } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-desk',
@@ -36,6 +37,7 @@ export class DeskComponent implements OnInit {
   players: Player[] = [];
   scores: Score[] = [];
 
+  ewindPlayerSetEventsubscription!: Subscription;
 
   getGames(): void {
     this.games = this.dataService.getGames();
@@ -62,17 +64,20 @@ export class DeskComponent implements OnInit {
   
 
   showHideDice(show:boolean):void {
-    console.warn("show hide dice: ", show);
+    //console.warn("show hide dice: ", show);
     let dealEle = (<HTMLElement>document.getElementById("deal"));
     let diceEle = (<HTMLElement>document.getElementById("dice"));
     let dealPTEle = (<HTMLElement>document.getElementById("dealpointer"));
+    let dealDiceNum = (<HTMLElement>document.getElementById("deal_dice_num"));
 
     if (show){
       diceEle.style.display = "";
+      dealDiceNum.style.display = "";
       dealPTEle.style.display = "none";
       dealEle.style.display = "none";
     } else {
       diceEle.style.display = "none";
+      dealDiceNum.style.display = "none";
       dealPTEle.style.display = "";
       dealEle.style.display = "";
     }
@@ -85,7 +90,7 @@ export class DeskComponent implements OnInit {
 
         let randomNumber1:number = Math.floor(1+Math.random() * 6) ;
         let randomNumber2:number = Math.floor(1+Math.random() * 6) ;
-        //console.log(randomNumber1,randomNumber2);
+        
         let diceNum = randomNumber1+randomNumber2;
         this.dice_num = diceNum;
         this.dice_run = true;
@@ -111,13 +116,21 @@ export class DeskComponent implements OnInit {
         if (this.scores.length===0){
           this.addScore( this.game_wind, 1 );
         }
-        console.warn(game, this.players, this.scores);
+
+    let msgTxtEle = (<HTMLElement>document.getElementById("promtxt"));
+    msgTxtEle.innerText = "";
+    let newGame = (<HTMLElement>document.getElementById("nxtgame"));
+    newGame.style.display = "";
+        
   };
 
 
 
     nxtGame(): void {
-   
+        let nxtGame = (<HTMLElement>document.getElementById("nxtgame"));
+        nxtGame.style.display = "none";
+        let msgTxtEle = (<HTMLElement>document.getElementById("promtxt"));
+        msgTxtEle.innerText = "Please roll dice to pick deal start."
 
         // change wind
         function nxtWind (currWind:string) : string{
@@ -180,12 +193,19 @@ export class DeskComponent implements OnInit {
 
         this.addScore(this.game_wind, gname);
         this.addNewGame(newGame);
-        console.log(this.games);
+       
 
   }
 
+  ewindPlayerSet():void{
+    this.showHideDice(true);
+    let msgTxtEle = (<HTMLElement>document.getElementById("promtxt"));
+    msgTxtEle.innerText = "Please roll dice to pick deal start."
+
+  }
 
   ngOnInit(): void {
+
         this.getGames();
         let newGame: Game =  {id:"g1", name:"1", game_wind:"E", dice_num:0, dice_run:false, ewind_player: -99, deal_player: -99};
         this.games.push(newGame);
@@ -201,8 +221,11 @@ export class DeskComponent implements OnInit {
         this.game_wind = currGame.game_wind;
         this.ewind_player = currGame.ewind_player;
         this.deal_player = currGame.deal_player;
-        console.warn(currGame);
-        //console.warn(this.msg);
+
+        this.ewindPlayerSetEventsubscription = this.appService.getEwindPlayerSetEvent().subscribe( ()=> {
+          this.ewindPlayerSet();
+        });
+
   };
 
 }

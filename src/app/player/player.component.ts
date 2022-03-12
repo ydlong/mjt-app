@@ -4,6 +4,7 @@ import { PLAYERS } from '../players';
 import { Player } from '../player';
 import { GAMES } from '../games';
 import { DataService } from '../dataService';
+import { AppService } from '../app.services';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
   dice_run: boolean = false;
   playername = new FormControl('');
 
-  constructor(private elementRef: ElementRef, private dataService: DataService) {}
+  constructor(private elementRef: ElementRef, private dataService: DataService, private appService: AppService) {}
 
   colScores:string[] = this.dataService.ColScore;
 
@@ -61,6 +62,8 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
       let winds: string[] = ["E","S","W","N"]
 
       let players: Player[] = this.players;
+      
+      let appSvc:AppService = this.appService;
 
       function checkDicNum (pid:string, cid:number) : {dup:boolean, run:boolean} {
         let vdup = false;
@@ -97,7 +100,7 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
         return randomNumber1+randomNumber2;
       }      
 
-      function assignWind(pwind:string):void {
+    function assignWind(pwind: string, appSvc:AppService):void {
         //let windObj:Player = PLAYERS.find(e => e.id === pwind)!;
 
         let curridx:number = +pwind.substring(2,1)-1;
@@ -116,6 +119,8 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
 
         let game = GAMES[GAMES.length-1];
         game.ewind_player = curridx;
+
+        appSvc.sentEwindPlayerSetEvent(); 
 
       }
       
@@ -173,8 +178,9 @@ export class PlayerComponent implements OnInit ,AfterViewInit {
                 
                 } else {
                   let ewind = players.reduce((max, obj) => (max.dice_num > obj.dice_num) ? max : obj);
-                  assignWind(ewind.id);
+                  assignWind(ewind.id, appSvc);
                   // display desk dice
+
                 }
 
               //console.log("Max number: ",maxDiceNum,  "Same number players: ", dupEles, "All diced: ", all_run,  "Plays data: ", PLAYERS);

@@ -25,4 +25,12 @@ export class AppService {
     getPlayerChageEvent(){
         return this.isPlayerChange.asObservable();
     }
+
+    isEwindPlayerSet: Subject<boolean> = new Subject<boolean>();
+    sentEwindPlayerSetEvent(){
+        this.isEwindPlayerSet.next(true);
+    }
+    getEwindPlayerSetEvent() {
+        return this.isEwindPlayerSet;
+    }
 }
