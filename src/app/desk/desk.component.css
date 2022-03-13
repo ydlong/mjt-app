@@ -3,11 +3,25 @@
     .wrapper .mat-list-item {
     height: 28px;
     }
+
+    .promtxt {
+        font-size: small;
+        position : relative;
+        left: -8px; 
+        bottom: 5px;
+    }
 }
 
 @media only screen and (min-width: 380px) {
     .wrapper .mat-list-item {
     height: 35px;
+    }
+    .promtxt {
+        font-size: small;
+        position : relative;
+        left: -20px; 
+        bottom:10px;
+    
     }
     
 }
@@ -16,5 +30,13 @@
     .wrapper .mat-list-item {
     height: 45px;
     }
+
+    .promtxt {
+        font-size: small;
+        position : relative;
+        left: -80px; 
+        bottom: -50px;   
+    }
+
     
 }
