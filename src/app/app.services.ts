@@ -31,6 +31,6 @@ export class AppService {
         this.isEwindPlayerSet.next(true);
     }
     getEwindPlayerSetEvent() {
-        return this.isEwindPlayerSet;
+        return this.isEwindPlayerSet.asObservable;
     }
 }
